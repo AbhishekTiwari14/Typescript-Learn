@@ -1,0 +1,1 @@
+Typescript is a 'strongly typed' language built on top of JS, which provides us with type'safety and hence makes the project less error-prone & more scalabe.
