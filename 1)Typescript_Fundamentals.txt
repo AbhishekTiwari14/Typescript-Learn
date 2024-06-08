@@ -1,1 +1,172 @@
-Typescript is a 'strongly typed' language built on top of JS, which provides us with type'safety and hence makes the project less error-prone & more scalabe.
+L1: BASIC SETUP
+Typescript is a 'strongly typed' language built on top of JS, which provides us with 'type safety' and hence makes the project less error-prone & more scalabe.
+
+-> npm i typescript -g: Install typescript package
+
+-> in terminal, "tsc ts_fileName.ts js_fileName.js"(not neccessary if same file name) will compile our typescript file into javascript file.
+    -> "tsc ts_fileName.ts -w" will watch continously and recompile the ts file whenever any change in it is made
+    -> "tsc -w" will watch for all ts files
+-> "tsc --init" will initialize a ts config file
+
+-> in config file, 
+set "rootDir: ./src"(folder in which .ts files are), 
+& "outDir: ./build/js"(folder in which we want compile .js files to be stored)
+
+-> at the end of config file,
+},
+  "include": ["src"]
+will make sure that all ts files outside src folders will be ignored(not be compiled)
+
+-> in config file, 
+"noEmitOnError": true,
+will not compile ts->js if ts file throws error and won't compile into js file(ex. 6/'3' is an error in ts)
+OR 
+we can do "tsc --noEmitOnError -w" in terminal for temporarily enabling it
+
+-> TS is strongly typed: need to explicitly declare type(JS is loosly typed) & it is also 
+statically typed: types are checked at compile time (JS is dynamically typed: types checked at runtime) 
+
+-> explicit type declaration: 
+let a: number = 5;
+let b: string = '10'
+....................................................
+
+L2: BASIC TYPES:
+-> TS infers(implicitly detects) data type: ex. let a = 'Hello', TS will infer that a is a string, but we can explicitly declare DT as let a : string = 'Hello'
+
+-> //basic TS types:
+//number, string, boolean, any, union, RegExp, never
+
+.....................................................
+
+L3: ARRAYS, TUPLES, OBJECTS, ENUMS
+-> Arrays: Type is assigned to array & not the individual element
+    -> Ex. const b: (number | string)[] = ['av', 'asfa', 24];
+    b.push('daf'); b[1] = 12; etc. can be done but b.push(true) will throw error
+    -> another syntax: 
+
+-> Tuples: Type is assigned to each element of array
+    -> Ex. myTuple : [number, string, boolean] = [12, 'bca', false] 
+    myTuple[0] = 24, myTuple[2] = true can be done but myTuple[0] = 'ga' will throw error
+    myTuple = myArray will give error(even if DTs remain same) as array may or may not have same DT at same index as tuple.
+
+-> Objects: Type is defined to individual prop value
+    -> Ex. let myobj = { name: 'faa', age: 12}; myobj.age = 'asd' will give error;
+-> Type-Defining an object (defining an object class): 
+    -> M1: type Animals = {type: string, life: number, region?: string}  
+    //note: optional prop pe method apply karne pe error ayega(bcoz it maybe undefined), so use optional chaining
+    let myObj2 : Animals = {type: 'lizard', life: 10, region: 'antarctica'} 
+    -> M2: interface Humans { name: string, age: number}
+    //Note: M1 & M2 work the same way for objects, however, tupe aliases can be made for other DTs but interface works only for objects(note: it works for array & fxn. as well bcoz they are also objects)
+    let user : Humans = {name: 'afa', age: 23} 
+    
+    ->// function with defined object as parameter
+    const greetHuman = (insaan: Humans) => {
+        console.log(`Hi! ${insaan.name}`);
+    }
+    greetHuman(user); //`Hi! afa`
+
+-> Enums: just as Serial nos.; not a type-addition, but feature addition on runtime
+enum Grade{
+    A = 8, //by-default = 0
+    E,      // A+1 = 9
+    I,      // A+2  = 10
+    O,     // A+3 = 11 
+    U      // A+4 = 12
+}
+
+console.log(Grade.A, Grade.E, Grade.I); // 8 9 10
+
+-> Type Aliases: 
+type stringOrNum = string | number
+let score: stringOrNum; //smae as let score: string|number
+
+-> Literal Types: assigning value(s) and not type(s)
+let userName: 'John' | 'Jonatthen' | 'Trott'
+userName = 'Aman' //error
+userName = 'Trott' //no error
+............................................................
+
+L4: FUNCTIONS
+-> let sum = (a: number, b: number): void => {  //void => fxn. not return anything 
+    console.log(a+b);  
+} 
+
+-> //Defining fxn. type(fxn. class)
+type mathFxn = (a: number, b: number) => number
+//same as 
+// interface matFxn {
+//    (a: number, b: number) : number
+//}
+
+let multiply : mathFxn = function(c, d) {
+    return c*d;
+}
+
+-> Rest parameters
+const sumAll = (a: number, b: number, ...nums: number[]) : number => {
+    return nums.reduce((acc, curr) =>  acc+curr);
+}
+log(sumAll(1,2,3,4,5)); //ans = 15, a = 1, b = 2, nums = [3,4,5] 
+//note: rest paras are defined at last 
+
+//'never' TS type: special cases, ex1) function explicitly returning error, ex2) infinite loop in a function => TS infers return type as 'never' 
+
+...........................................................
+
+L5: TYPE ASSERTION or TYPE CASTING
+type one = string;
+type two = number | string;
+type three = 'hello';
+
+//convert to more or less specefic
+let a : one = 'hello';
+let b = a as two; //less specefic: b can be a number or string (currently, b = 'hello')
+b = 24;
+let c =a as three; //more specefic
+
+const addOrConcat = (a: number, b: number, c: 'add' | 'concat') : string|number => {
+    if(c === 'add') return a+b;
+    return '' + a + b;
+}
+
+let ans: string = addOrConcat(2,9,'concat'); //error bcoz fxn. may return number or string (as inferred by TS) but here we have explicitly give ans type = string, so to overrule TS and typecast ans, we can use 'as'
+
+let jawab: string = addOrConcat(2,9,'concat') as string; //no error
+//do so only if you are sure of type of the variable typecasted
+let val: string = addOrConcat(2,9,'concat') as number; //error
+
+//double casting or force casting : to avoid TS error, first convert to type unknown(similar to any but can be used only for this purpose)
+10 as string ; //gives error
+(10 as unknown) as string; //no error //force casting
+ 
+//DOM
+const img = document.getElementById('myImg')!;// explicitly telling that img is not null
+const img = document.getElementById('myImg') as HTMLImageElement;  //explicitly telling TS that I know that this element exists 
+
+...............................................................
+
+L6: CLASSES
+class coder{
+    constructor(public name: string, public age: number, public lang: string){ 
+        //we can use private,protected or readonly instead of public as well
+        this.name = name;
+        this.age = age;
+        this.lang = lang;
+    }
+}
+const Ab = new coder("Abhishek", 22, "Typescript");
+
+class webDev extends coder{  //wbDev is a sub-class of coder class
+    constructor(public name: string, public age: number, public lang: string){
+        super(name, age, lang);   //we mention every property we get with coder class in super
+        this.name = name;
+        this.age = age;
+        this.lang = lang;
+    }
+    
+}
+
+...........................................................
+
+L7: INDEX SIGNATURES & KEYOF ASSERTIONS
