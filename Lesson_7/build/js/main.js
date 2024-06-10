@@ -11,4 +11,4 @@ const b = {
     id: 2315
 };
 let prop2 = 'id';
-console.log(b[prop]); //no error, works fine
+console.log(b[prop2]); //no error, works fine

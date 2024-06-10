@@ -1,75 +1,55 @@
-class coder{
-    constructor(public name: string, public age: number, private lang: string){
+"use strict";
+class coder {
+    constructor(name, age, lang) {
+        this.name = name;
+        this.age = age;
+        this.lang = lang;
         this.name = name;
         this.age = age;
         this.lang = lang;
     }
-
-    public getLang(){
-        return `${this.name} knows ${this.lang} language`
+    getLang() {
+        return `${this.name} knows ${this.lang} language`;
     }
 }
 const Abhishek = new coder("Abhishek", 22, "Typescript");
 console.log(Abhishek.getLang()); // Abhishek knows Typescript language
-
-
-class webDev extends coder{
-    constructor(public skill: string, name: string, age: number, lang: string){
+class webDev extends coder {
+    constructor(skill, name, age, lang) {
         super(name, age, lang);
         this.skill = skill;
+        this.skill = skill;
     }
-
-    public getAge(){
+    getAge() {
         return `Age: ${this.age}`;
     }
 }
-
-///////////////////////////////////////////////
- 
-interface Musician {
-    name: string, 
-    instrument: string,
-    plays(action: string): string
-}
-
-class Guitarist implements Musician{
-    name: string
-    instrument: string
-
-    constructor(name: string, instrument: string){
+class Guitarist {
+    constructor(name, instrument) {
         this.name = name;
         this.instrument = instrument;
     }
-
-    plays(action: string){
+    plays(action) {
         return `${this.name} ${action} the ${this.instrument}`;
     }
 }
-
 const Jimmy = new Guitarist("Anderson", "guitar");
 console.log(Jimmy.plays("strums")); // Anderson strums the guitar
-
 //////////////////////////////////////////////////
-
-class StaticKW{
-    static count : number = 0;
-    public id: number;
-    public getCount() : number {
+class StaticKW {
+    getCount() {
         return StaticKW.count;
     }
-    constructor(){      
+    constructor() {
         this.id = ++StaticKW.count;
     }
 }
-
+StaticKW.count = 0;
 const a = new StaticKW();
 const b = new StaticKW();
-
 console.log(a.id); // 1
 console.log(b.id); // 2
 console.log(a.getCount()); // 2
 console.log(b.getCount()); // 2
 console.log(StaticKW.count); // 2
-
 ///////////////////////////////////////////////
-

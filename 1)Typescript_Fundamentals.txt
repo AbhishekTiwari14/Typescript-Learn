@@ -167,6 +167,48 @@ class webDev extends coder{  //wbDev is a sub-class of coder class
     
 }
 
+-> implementing class using an interface
+interface Cricketer{
+    name: string,
+    type: string,
+
+    pace(speed: number): string ; 
+}
+
+class Bowler implements Cricketer{
+    name: string
+    type: string
+    constructor(name: string, type: string){
+        this.name = name,
+        this.type = type,
+    }
+    pace(speed: string){
+        console.log(`${this.name} bowls at ${speed} KMPH`);
+    }
+}
+const anderson = new Bowler(""Jimmy", "bowler");
+anderson.pace(146); //Jimmy bowls at 146 KMPH 
+
+-> static var in a class belongs to the class and not any instance of that class 
 ...........................................................
 
 L7: INDEX SIGNATURES & KEYOF ASSERTIONS
+
+-> Index Signature helps access val of a key/prop in an object 'dynamically'; obj1[key1] or obj1.key1 gives val1 but if we do let prop1 = 'key1' & obj1[prop1], then it will give error. another x. is when looping through elements : for (const key in obj1) -> it will again give error.
+
+-> Solution 1: Declare Index Signature for the props when creating a class or interface; ex: 
+    interface obj2{
+        [key: string]: number | string; //all keys of obj2=>strings & values can be number or string
+    }
+    const student = {
+        name: "abhi",
+        marks: 30
+    }
+    now, let prop1 = 'name' -> obj2[prop1] will give val1(ie, abhi) & not throw error.
+
+->  Solution 2[Without using Index Sign]: 'key as keyof typeof obj1' will do union  with all keys of    obj1 and won't throw error. ex. Object.Keys(obj1).map(key-> clog(key as keyof typeof obj1) )
+
+.....................................................................
+L8: GENERICS
+
+-> 
