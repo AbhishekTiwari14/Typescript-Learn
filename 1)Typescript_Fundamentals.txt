@@ -207,8 +207,26 @@ L7: INDEX SIGNATURES & KEYOF ASSERTIONS
     now, let prop1 = 'name' -> obj2[prop1] will give val1(ie, abhi) & not throw error.
 
 ->  Solution 2[Without using Index Sign]: 'key as keyof typeof obj1' will do union  with all keys of    obj1 and won't throw error. ex. Object.Keys(obj1).map(key-> clog(key as keyof typeof obj1) )
-
 .....................................................................
+
 L8: GENERICS
 
--> 
+-> We pass generic DT as a placeholder when we don't want to declare the type at time of defining fxn./class. 
+-> Once value is assigned, DT gets fixed & can't be changed
+
+->  const f1 = <T> (arg : T) : T => {
+    return arg;
+}
+    Here, T is 'generic', ie, T is placeholder for DT.
+
+-> Use Case Ex.: Creating a generic fxn. which checks if given arg is an object or not: 
+    const isObj = <T> (arg: T) : boolean => {
+        return typeof arg == 'object' && !Array.isArray(arg) && arg!= null;
+    }
+    console.log(isObj([1,3,4])); //false
+    console.log(isObj({a: "Abhi", b: 32})); //true
+
+-> Go to Lesson_8 : src main.ts to see a complex example.
+.................................................................
+
+L9: 
