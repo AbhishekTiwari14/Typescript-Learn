@@ -226,7 +226,55 @@ L8: GENERICS
     console.log(isObj([1,3,4])); //false
     console.log(isObj({a: "Abhi", b: 32})); //true
 
--> Go to Lesson_8 : src main.ts to see a complex example.
+-> Go to Lesson_8 : src->main.ts to see a complex example.
 .................................................................
 
-L9: 
+L9: UTILITY TYPES
+
+-> (1) Partial: To apply a part/portion on DT of a class/interface
+    ->ex. interface X { id: number, name: string, marks: number, rank: number};
+          const updateMarksAndRank = (student: X, propsToUpdate: Partial<X>){
+            return { ...student, ...propsToUpdate }
+          };
+          const abhi: X = {id:1, name: "Tiw", marks: 29, rank: 9124};
+          clog(updateMarksAndRank(abhi, { marks: 42, rank: 4520 })); // {id:1, name: Tiw, marks: 42, rank: 4520} 
+
+-> (2) Required: Makes all props compulsary (even the optional props).
+    ->ex. interface Y {id: number, name: string, weight?: number};
+          const fn = (student: Required<Y>) : Required<Y> => { clog(student)};
+          const abhi = {id:2, name:"Tiw", weight: 53}
+          const shek = {id:3, name:"AB"}
+          fn(abhi); // {id:2, name:"Tiw", weight: 53}
+          fn(shek); // will throw error
+
+-> (3) ReadOnly: For any object created, any of its props' value cannot be changed/reassigned
+    ->ex. type Z = Readonly<Y>;
+          const abhishek = {id: 4, name: "shibu"};
+          abhishek.id = 23; //error
+          abhishek.name = "Tiwdar"; //error
+
+-> (4) Record: Record<DT of Keys, DT of vlaues> in an object
+    ->ex. type A = Record<String|Number, Number> 
+          const something: A = {"can": 32, 0: "41", "coke": "25"};  
+
+-> (5) Pick & (6) Omit: 'Pick' => picking a few DTs/props from a class/interface & 'Omit' (Omit<X, a|b>)=>  type = Interface X - props(a&b);
+    ->ex. const pickMe : Pick<Y, "id" | "name"> = {id: "safmoiagn"};
+    type omitSomeOfY = omit<Y, "id" | "weight">;
+    const omg : omitSomeOfY = {name: "dosanf"};
+
+-> (7) Exclude & (8) Extract : Same as Pick & Omit, but these work on union types U& not interface/class  
+
+-> (9) NonNullable: Excludes "null" & "undefined" types if present in union type
+    ->ex. type stud = "Abhi" | "Tiw" | null | undefined;
+          type AT : NonNullable<stud>; // => type AT = "Abhi" | "Tiw" 
+
+-> (10) ReturnType: type X = ReturnType<typeof fn1> => X takes DT of whatever DT is returned by fn1      
+-> (11) Parameters: type P = Parameters<typeof fn1> => P = [DTs of Parameters of fn1] as a tuple.
+
+-> (12) Awaited: helps us with the ReturnType of a Promise 
+    ex. const fetchUsers = async () => {
+        await fetch("url");
+        .then(return data);
+    }   //fetchUsers returns a promise
+    type FURT = Awaited<ReturnType<typeof fetchUsers>>; //agar Awaited na lagayen to type FURT = promise ho jayega;
+
