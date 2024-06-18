@@ -277,4 +277,47 @@ L9: UTILITY TYPES
         .then(return data);
     }   //fetchUsers returns a promise
     type FURT = Awaited<ReturnType<typeof fetchUsers>>; //agar Awaited na lagayen to type FURT = promise ho jayega;
+..................................................................
 
+L11: Project1-> Todo List
+
+-> 
+..................................................................
+
+L12: Project2 -> React Projects
+
+-> components->Section.tsx: 
+    type SectionProps = {
+        subHeading?: string,
+        children: ReactNode
+    }
+    const Section = ({children, subHeading = "subH"} : SectionProps) => {
+        return (
+            <div>
+            <h2>{subHeading}</h2>
+            {children}
+            </div>
+        )
+    } 
+
+    App.tsx:
+     return<>
+        <Heading title= {"Heaidng"} />
+        <Section subHeading= {"Choti Heading"}>Childeren</Section> 
+        {/* props are passed as arg/parameter while children are written b/w the tags */}
+  </>
+
+-> const [count, setCount] = useState<number>(0);
+
+-> using generics: components->List.tsx 
+    interface ListProps <T> {
+        items: T[],
+        render: (item: T) => ReactNode 
+    } 
+
+    const List = <T,>({items, render} :  ListProps<T>) => {
+    return (
+
+    )}
+
+-> 
